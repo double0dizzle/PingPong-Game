@@ -1,159 +1,381 @@
+// //select canvas
+// const canvas = document.getElementById("pong");
+// var context = canvas.getContext("2d");
+
+
+// context.fillStyle = "black";
+// context.fillRect(100, 200, 50, 75);
+// context.fillStyle="red";
+// context.beginPath();
+// context.arc(300, 350, 100, 0, Math.PI*2, false);
+// context.closePath();
+// context.fill();
+
+// function drawRect(x, y, w, h, color) { //this is the first of three draw functions
+//     context.fillStyle = color;
+//     context.fillRect(x, y, w, h);
+// }
+
+// function drawCircle(x, y, r, color) { //this is the 2nd of three draw functions
+//     context.fillStyle = color;
+//     context.beginPath();
+//     context.arc(x, y, r, 0, Math.PI*2, false);
+//     context.closePath();
+//     context.fill();
+// }
+
+// function drawText(text, x, y, color) { //this is the 3rd of three draw functions
+//     context.fillStyle = color;
+//     context.font = "75px fantasy";
+//     context.fillText(text, x, y);
+// }
+
+// let rectX = 0;
+
+// function render(){
+//     drawRect(0, 0, 600, 400, "black");
+//     drawRect(rectX, 100, 100, 500, "red");
+//     rectX = rectX + 100;
+// }
+
+// setInterval(render, 1000);
+
+// const user = {
+//     x : 0,
+//     y : canvas.height/2 - 100/2,
+//     width : 10,
+//     height : 100,
+//     color : "WHITE",
+//     score : 0
+// }
+
+// const com = {
+//     x : canvas.width - 10,
+//     y : canvas.height/2 - 100/2,
+//     width : 10,
+//     height : 100,
+//     color : "WHITE",
+//     score : 0,
+// }
+
+// const net = {
+//     x : canvas.width/2 - 2/2,
+//     y : 0,
+//     width : 2,
+//     height: 10,
+//     color : "WHITE",
+// }
+
+// const ball = {
+//     x : canvas.width/2,
+//     y : canvas.height/2,
+//     radius : 10,
+//     speed : 5,
+//     velocityX : 5,
+//     velocityY : 5,
+//     color: "WHITE"
+// }
+
+// function drawNet() {
+//     for(let i = 0; i < canvas.height; i+=15) {
+//         drawRect(net.x, net.y + i, net.width, net.height, net.color);
+//     }
+// }
+// // drawRect(0, 0, cvs.width, cvs.height, "BLACK");
+// // drawCircle(100, 100, 50, "WHITE");
+// drawCircle(ball.x, ball.y, ball.r, ball.color);
+// drawText(user.score, canvas.width/4, canvas.height/5, "WHITE");
+// drawText(com.score, 3*canvas.width/4, canvas.height/5, "WHITE");
+
+// function render() {
+//   drawRect(0, 0, canvas.width, canvas.height, "BLACK");
+//   drawText(user.score, canvas.width/4, canvas.height/5, "WHITE");
+//   drawText(com.score, 3*canvas.width/4, canvas.height/5, "WHITE");
+//   drawNet();
+//   drawRect(user.x, user.y, user.width, user.height, user.color);
+//   drawRect(com.x, com.y, com.width, com.height, com.color);
+//   drawCircle(ball.x, ball.y, ball.radius, ball.color);
+// }
+
+// function game() {
+//     render();
+//     update();
+// }
+
+// let framePerSecond = 50;
+
+// setInterval(game, 1000/framePerSecond); //call game(); 50 times every 1 second
+
+// function update() {
+//     ball.x += velocityX;
+//     ball.y += velocityY; 
+//     com.y += ((ball.y - (com.y + com.height/2)))*0.1;
+    
+//     if(ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+//         velocityY = -velocityY;
+//     }
+    
+//     let player = (ball.x < canvas.width/2) ? user :com;
+    
+//     if(collision(ball, player)) {
+//         let collidePoint = (ball.y - (player.y + player.height/2));
+//         collidePoint = collidePoint / (player.height/2);
+//         let angleRad = (Math.PI/4) * collidePoint;
+//         let direction = (ball.x < canvas.width/2) ? 1 : -1;
+//         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+//         ball.velocityY = ball.speed * Math.sin(angleRad);
+//         ball.speed += 0.1;
+//     }
+
+//     if(ball.x - ball.radius < 0) {
+//         com.score++;
+//         resetBall();
+//     } else if(ball.x + ball.radius > canvas.width) {
+//       user.score++;
+//       resetBall();
+//     }
+// }
+
+// function collision(b, p) {
+//    p.top = p.y;
+//    p.bottom = p.y + p.height;
+//    p.left = p.x;
+//    p.right = p.x + p.width;
+//    b.top = b.y - b.radius;
+//    b.bottom = b.y + b.radius;
+//    b.left = b.x - b.radius;
+//    b.right = b.x + b.radius;
+//    return b.right > p.left && b.top < p.bottom && b.left < p.right && b.bottom > p.top; 
+// }
+
+// function resetBall() {
+//     ball.x = canvas.width/2;
+//     ball.y = canvas.height/2;
+//     ball.speed = 5;
+//     ball.velocityX = -ball.velocityX;
+// }
+
+// canvas.addEventListener("mousemove", movePaddle);
+// canvas.getBoundingClientRect();
+// function movePaddle(evt) {
+//     let rect = canvas.getBoundingClientRect();
+//     user.y = evt.clientY - rect.top - user.height/2;
+// }
+
+// let loop = setInterval(game, framePerSecond);
+
+
+
+
+
+// select canvas element
 const canvas = document.getElementById("pong");
-var context = canvas.getContext("2d");
 
+// getContext of canvas = methods and properties to draw and do a lot of thing to the canvas
+const ctx = canvas.getContext('2d');
 
-context.fillStyle = "black";
-context.fillRect(100, 200, 50, 75);
-context.fillStyle="red";
-context.beginPath();
-context.arc(300, 350, 100, 0, Math.PI*2, false);
-context.closePath();
-context.fill();
+// load sounds
+let hit = new Audio();
+let wall = new Audio();
+let userScore = new Audio();
+let comScore = new Audio();
 
-function drawRect(x, y, w, h, color) { //this is the first of three draw functions
-    context.fillStyle = color;
-    context.fillRect(x, y, w, h);
-}
+// hit.src = "sounds/hit.mp3";
+// wall.src = "sounds/wall.mp3";
+// comScore.src = "sounds/comScore.mp3";
+// userScore.src = "sounds/userScore.mp3";
 
-function drawCircle(x, y, r, color) { //this is the 2nd of three draw functions
-    context.fillStyle = color;
-    context.beginPath();
-    context.arc(x, y, r, 0, Math.PI*2, false);
-    context.closePath();
-    context.fill();
-}
-
-function drawText(text, x, y, color) { //this is the 3rd of three draw functions
-    context.fillStyle = color;
-    context.font = "75px fantasy";
-    context.fillText(text, x, y);
-}
-
-let rectX = 0;
-
-function render(){
-    drawRect(0, 0, 600, 400, "black");
-    drawRect(rectX, 100, 100, 500, "red");
-    rectX = rectX + 100;
-}
-
-setInterval(render, 1000);
-
-const user = {
-    x : 0,
-    y : canvas.height/2 - 100/2,
-    width : 10,
-    height : 100,
-    color : "WHITE",
-    score : 0
-}
-
-const com = {
-    x : canvas.width - 10,
-    y : canvas.height/2 - 100/2,
-    width : 10,
-    height : 100,
-    color : "WHITE",
-    score : 0,
-}
-
-const net = {
-    x : canvas.width/2 - 2/2,
-    y : 0,
-    width : 2,
-    height: 10,
-    color : "WHITE",
-}
-
+// Ball object
 const ball = {
     x : canvas.width/2,
     y : canvas.height/2,
     radius : 10,
-    speed : 5,
     velocityX : 5,
     velocityY : 5,
-    color: "WHITE"
+    speed : 7,
+    color : "WHITE"
 }
 
-function drawNet() {
-    for(let i = 0; i < canvas.height; i+=15) {
+// User Paddle
+const user = {
+    x : 0, // left side of canvas
+    y : (canvas.height - 100)/2, // -100 the height of paddle
+    width : 10,
+    height : 100,
+    score : 0,
+    color : "WHITE"
+}
+
+// COM Paddle
+const com = {
+    x : canvas.width - 10, // - width of paddle
+    y : (canvas.height - 100)/2, // -100 the height of paddle
+    width : 10,
+    height : 100,
+    score : 0,
+    color : "WHITE"
+}
+
+// NET
+const net = {
+    x : (canvas.width - 2)/2,
+    y : 0,
+    height : 10,
+    width : 2,
+    color : "WHITE"
+}
+
+// draw a rectangle, will be used to draw paddles
+function drawRect(x, y, w, h, color){
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, w, h);
+}
+
+// draw circle, will be used to draw the ball
+function drawArc(x, y, r, color){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x,y,r,0,Math.PI*2,true);
+    ctx.closePath();
+    ctx.fill();
+}
+
+// listening to the mouse
+canvas.addEventListener("mousemove", getMousePos);
+
+function getMousePos(evt){
+    let rect = canvas.getBoundingClientRect();
+    
+    user.y = evt.clientY - rect.top - user.height/2;
+}
+
+// when COM or USER scores, we reset the ball
+function resetBall(){
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    ball.velocityX = -ball.velocityX;
+    ball.speed = 7;
+}
+
+// draw the net
+function drawNet(){
+    for(let i = 0; i <= canvas.height; i+=15){
         drawRect(net.x, net.y + i, net.width, net.height, net.color);
     }
 }
 
-drawCircle(ball.x, ball.y, ball.r, ball.color);
-drawText(user.score, canvas.width/4, canvas.height/5, "WHITE");
-drawText(com.score, 3*canvas.width/4, canvas.height/5, "WHITE");
-
-function render() {
-  drawRect(0, 0, canvas.width, canvas.height, "BLACK");
-  drawText(user.score, canvas.width/4, canvas.height/5, "WHITE");
-  drawText(com.score, 3*canvas.width/4, canvas.height/5, "WHITE");
-  drawNet();
-  drawRect(user.x, user.y, user.width, user.height, user.color);
-  drawRect(com.x, com.y, com.width, com.height, com.color);
-  drawCircle(ball.x, ball.y, ball.radius, ball.color);
+// draw text
+function drawText(text,x,y){
+    ctx.fillStyle = "#FFF";
+    ctx.font = "75px fantasy";
+    ctx.fillText(text, x, y);
 }
 
-function game() {
-    render();
-}
-
-const framePerSecond = 50;
-
-setInterval(game, 1000/framePerSecond); //call game(); 50 times every 1 second
-
-function update() {
-    ball.x += velocityX;
-    ball.y += velocityY; 
+// collision detection
+function collision(b,p){
+    p.top = p.y;
+    p.bottom = p.y + p.height;
+    p.left = p.x;
+    p.right = p.x + p.width;
     
-    if(ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-        velocityY = -velocityY;
+    b.top = b.y - b.radius;
+    b.bottom = b.y + b.radius;
+    b.left = b.x - b.radius;
+    b.right = b.x + b.radius;
+    
+    return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+}
+
+// update function, the function that does all calculations
+function update(){
+    
+    // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
+    if( ball.x - ball.radius < 0 ){
+        com.score++;
+        comScore.play();
+        resetBall();
+    }else if( ball.x + ball.radius > canvas.width){
+        user.score++;
+        userScore.play();
+        resetBall();
     }
     
-    let player = (ball.x < canvas.width/2) ? user :com;
+    // the ball has a velocity
+    ball.x += ball.velocityX;
+    ball.y += ball.velocityY;
     
-    if(collision(ball, player)) {
+    // computer plays for itself, and we must be able to beat it
+    // simple AI
+    com.y += ((ball.y - (com.y + com.height/2)))*0.1;
+    
+    // when the ball collides with bottom and top walls we inverse the y velocity.
+    if(ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){
+        ball.velocityY = -ball.velocityY;
+        wall.play();
+    }
+    
+    // we check if the paddle hit the user or the com paddle
+    let player = (ball.x + ball.radius < canvas.width/2) ? user : com;
+    
+    // if the ball hits a paddle
+    if(collision(ball,player)){
+        // play sound
+        hit.play();
+        // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
+        // normalize the value of collidePoint, we need to get numbers between -1 and 1.
+        // -player.height/2 < collide Point < player.height/2
         collidePoint = collidePoint / (player.height/2);
+        
+        // when the ball hits the top of a paddle we want the ball, to take a -45degees angle
+        // when the ball hits the center of the paddle we want the ball to take a 0degrees angle
+        // when the ball hits the bottom of the paddle we want the ball to take a 45degrees
+        // Math.PI/4 = 45degrees
         let angleRad = (Math.PI/4) * collidePoint;
-        let direction = (ball.x < canvas.width/2) ? 1 : -1;
+        
+        // change the X and Y velocity direction
+        let direction = (ball.x + ball.radius < canvas.width/2) ? 1 : -1;
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
+        
+        // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
     }
-
-    if(ball.x - ball.radius < 0) {
-        com.score++;
-        resetBall();
-    } else if(ball.X + ball.radius > canvas.width) {
-      user.score++;
-      resetBall();
-    }
 }
 
-function collision(b, p) {
-   p.top = p.y;
-   p.bottom = p.y + p.height;
-   p.left = p.x;
-   p.right = p.x + p.width;
-   b.top = b.y - b.radius;
-   b.bottom = b.y + b.radius;
-   b.left = b.x - b.radius;
-   b.right = b.x + b.radius;
-   return b.right > p.left && b.top < p.bottom && b.left < p.right && b.bottom > p.top; 
+// render function, the function that does al the drawing
+function render(){
+    
+    // clear the canvas
+    drawRect(0, 0, canvas.width, canvas.height, "#000");
+    
+    // draw the user score to the left
+    drawText(user.score,canvas.width/4,canvas.height/5);
+    
+    // draw the COM score to the right
+    drawText(com.score,3*canvas.width/4,canvas.height/5);
+    
+    // draw the net
+    drawNet();
+    
+    // draw the user's paddle
+    drawRect(user.x, user.y, user.width, user.height, user.color);
+    
+    // draw the COM's paddle
+    drawRect(com.x, com.y, com.width, com.height, com.color);
+    
+    // draw the ball
+    drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
+function game(){
+    update();
+    render();
+}
+// number of frames per second
+let framePerSecond = 50;
 
-function resetBall() {
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
-    ball.speed = 5;
-    ball.velocityX = -ball.velocityX;
-}
+//call the game function 50 times every 1 Sec
+let loop = setInterval(game,1000/framePerSecond);
 
-canvas.addEventListener("mousemove", movePaddle);
-canvas.getBoundingClientRect();
-function movePaddle(evt) {
-    let rect = canvas.getBoundingClientRect();
-    user.y = evt.clientY - rect.top - user.height/2;
-}
+//https://www.youtube.com/watch?v=nl0KXCa5pJk&feature=youtu.be&fbclid=IwAR0HUJnfHtoH2V35adbkcpHJ1Lu2eVeXTRkzOf_fIxeNy-59yR9KFg_k90Y
+
