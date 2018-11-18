@@ -69,6 +69,9 @@ const ball = {
     x : canvas.width/2,
     y : canvas.height/2,
     radius : 10,
+    speed : 5,
+    velocityX : 5,
+    velocityY : 5,
     color: "WHITE"
 }
 
@@ -99,3 +102,58 @@ function game() {
 const framePerSecond = 50;
 
 setInterval(game, 1000/framePerSecond); //call game(); 50 times every 1 second
+
+function update() {
+    ball.x += velocityX;
+    ball.y += velocityY; 
+    
+    if(ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+        velocityY = -velocityY;
+    }
+    
+    let player = (ball.x < canvas.width/2) ? user :com;
+    
+    if(collision(ball, player)) {
+        let collidePoint = (ball.y - (player.y + player.height/2));
+        collidePoint = collidePoint / (player.height/2);
+        let angleRad = (Math.PI/4) * collidePoint;
+        let direction = (ball.x < canvas.width/2) ? 1 : -1;
+        ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+        ball.velocityY = ball.speed * Math.sin(angleRad);
+        ball.speed += 0.1;
+    }
+
+    if(ball.x - ball.radius < 0) {
+        com.score++;
+        resetBall();
+    } else if(ball.X + ball.radius > canvas.width) {
+      user.score++;
+      resetBall();
+    }
+}
+
+function collision(b, p) {
+   p.top = p.y;
+   p.bottom = p.y + p.height;
+   p.left = p.x;
+   p.right = p.x + p.width;
+   b.top = b.y - b.radius;
+   b.bottom = b.y + b.radius;
+   b.left = b.x - b.radius;
+   b.right = b.x + b.radius;
+   return b.right > p.left && b.top < p.bottom && b.left < p.right && b.bottom > p.top; 
+}
+
+function resetBall() {
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    ball.speed = 5;
+    ball.velocityX = -ball.velocityX;
+}
+
+canvas.addEventListener("mousemove", movePaddle);
+canvas.getBoundingClientRect();
+function movePaddle(evt) {
+    let rect = canvas.getBoundingClientRect();
+    user.y = evt.clientY - rect.top - user.height/2;
+}
